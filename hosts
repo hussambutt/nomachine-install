@@ -1,0 +1,13 @@
+[all]
+#50.22.129.51 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=fKs7dERHFfmV
+#169.47.228.55 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=zK5zVl6YqNSh
+#169.46.128.73 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=jdjVMAa7bx6R
+#169.61.55.36 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=naVf4kLnp8Kv
+#184.173.88.134 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=n6X9JCKzKFRE
+#23.246.230.246 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=qmCK48BfJglP
+
+23.246.230.242 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=wjQcwHLQNM5v
+#169.46.128.77 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=k7CFuDQs52g3
+#169.47.228.56 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=zNA8CQ3fnQlu
+#169.61.55.43 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=eyR4ZnSWcMh5
+#169.46.128.66 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=c67Y994ZEJtS

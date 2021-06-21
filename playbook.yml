@@ -1,0 +1,98 @@
+---
+
+- hosts: all
+  gather_facts: no
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+
+    - name: Create dir /var/lib/apt/lists/
+      file:
+        state: directory
+        path: /var/lib/apt/lists/
+
+    - name: Upgrade all apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install the package ubuntu-desktop
+      apt:
+        name: ubuntu-desktop
+        update_cache: yes
+      register: ubuntu_desktop_result
+
+    - name: Update to allow root in GUI | /etc/gdm3/custom.conf
+      lineinfile:
+        path: /etc/gdm3/custom.conf
+        insertafter: '^\[security\]'
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { regexp: 'AllowRoot=true', line: AllowRoot=true }
+        - { regexp: 'AllowRemoteRoot=true', line: AllowRemoteRoot=true }
+
+    - name: Update to allow root in GUI | /etc/pam.d/gdm-password
+      lineinfile:
+        path: /etc/pam.d/gdm-password
+        regexp: 'root quiet_success'
+        line: '#auth    required        pam_succeed_if.so user != root quiet_success'
+        backrefs: yes
+
+    - name: Copy nomachine package to remote machine
+      copy:
+        src: nomachine_7.6.2_4_amd64.deb
+        dest: /tmp/nomachine_7.6.2_4_amd64.deb
+
+    - name: Install NoMachine
+      apt:
+        deb: /tmp/nomachine_7.6.2_4_amd64.deb
+      register: nomachine_install_result
+
+    - name: Modify permissions on /usr/NX/var/log/node
+      file:
+        state: directory
+        path: /usr/NX/var/log/node
+        owner: nx
+        group: root
+
+    - name: Update to allow more Display resolutions | /etc/default/grub
+      lineinfile:
+        path: /etc/default/grub
+        regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
+        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i915.alpha_support=1"'
+        backrefs: yes
+      register: update_grub_result
+
+    - name: Update grub
+      shell: "update-grub"
+      when: update_grub_result is changed
+
+    - name: Reboot machine
+      reboot:
+      when: ubuntu_desktop_result is changed or nomachine_install_result is changed or update_grub_result is changed
+
+    - name: Wait for the reboot and reconnect 
+      wait_for:
+        port: 22
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+        search_regex: OpenSSH
+        sleep: 10
+        delay: 10
+        timeout: 120
+      connection: local
+
+    - name: Disable lock screen
+      shell: "gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'"
+
+    - name: Disable screen saver locking
+      shell: "gsettings set org.gnome.desktop.screensaver lock-enabled false"
+
+    - name: Killall Xorg
+      shell: "killall Xorg || true"
+
+    - name: Restart nxservice
+      service:
+        name: nxserver.service
+        state: restarted
