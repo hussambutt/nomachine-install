@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+  gather_facts: no
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: Remove bloatware
+      apt:
+        name: [ account-plugin-facebook, account-plugin-flickr, account-plugin-twitter, account-plugin-windows-live, aisleriot, brltty, duplicity, empathy, empathy-common, example-content, libreoffice-avmedia-backend-gstreamer, libreoffice-base-core, libreoffice-calc, libreoffice-common, libreoffice-core, libreoffice-draw, libreoffice-gnome, libreoffice-gtk, libreoffice-impress, libreoffice-math, libreoffice-ogltrans, libreoffice-pdfimport, libreoffice-style-galaxy, libreoffice-style-human, libreoffice-writer, printer-driver-brlaser, printer-driver-foo2zjs, printer-driver-foo2zjs-common, printer-driver-m2300w, printer-driver-ptouch, printer-driver-splix ]
+        state: absent
+
+    - name: "Set timezone | {{ timezone }}"
+      timezone:
+        name: "{{ timezone }}"

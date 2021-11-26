@@ -6,8 +6,23 @@
 #184.173.88.134 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=n6X9JCKzKFRE
 #23.246.230.246 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=qmCK48BfJglP
 
-23.246.230.242 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=wjQcwHLQNM5v
+#23.246.230.242 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=wjQcwHLQNM5v
 #169.46.128.77 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=k7CFuDQs52g3
 #169.47.228.56 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=zNA8CQ3fnQlu
 #169.61.55.43 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=eyR4ZnSWcMh5
 #169.46.128.66 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=c67Y994ZEJtS
+
+169.54.33.126 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=kVKdTFYj8P6d hostname=ltgcloudvps01 timezone=America/Detroit
+169.54.33.118 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=sVNk2yyB2UH6 hostname=ltgcloudvps02 timezone=America/Detroit
+169.54.33.121 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=g7xUfvfrSL7Z hostname=ltgcloudvps03 timezone=America/Detroit
+169.54.33.124 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=eEYaCJs44tNg hostname=ltgcloudvps04 timezone=America/Detroit
+169.54.33.120 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=mlnHsCy4z8ec hostname=ltgcloudvps05 timezone=America/Detroit
+169.54.33.122 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=kA8rfYCsBSmL hostname=ltgcloudvps06 timezone=America/Detroit
+184.172.59.178 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=jtflbU2UwBbA hostname=ltgcloudvps07 timezone=America/Chicago
+184.172.59.182 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=tmVR86SUqqLZ hostname=ltgcloudvps08 timezone=America/Chicago
+184.172.59.179 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=znZd5CtFme9s hostname=ltgcloudvps09 timezone=America/Chicago
+184.172.59.180 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=bvcShmf3Jahr hostname=ltgcloudvps10 timezone=America/Chicago
+184.172.59.181 ansible_connection=ssh ansible_ssh_user=root ansible_ssh_pass=fWWDSBn95bAx hostname=ltgcloudvps11 timezone=America/Chicago
+
+[all:vars]
+userpass=micloud15

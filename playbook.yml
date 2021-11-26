@@ -6,6 +6,14 @@
   become_method: sudo
   become_user: root
   tasks:
+    - name: Update hostname
+      hostname:
+        name: "{{ hostname }}"
+
+    - name: Add user profile
+      user:
+        name: "{{ hostname }}"
+        password: "{{ userpass | password_hash('sha512') }}" 
 
     - name: Create dir /var/lib/apt/lists/
       file:
@@ -32,6 +40,15 @@
       with_items:
         - { regexp: 'AllowRoot=true', line: AllowRoot=true }
         - { regexp: 'AllowRemoteRoot=true', line: AllowRemoteRoot=true }
+    
+    - name: Update WaylandEnable for Ubunutu 20.04 | /etc/gdm3/custom.conf
+      lineinfile:
+        path: /etc/gdm3/custom.conf
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        backrefs: yes
+      with_items:
+        - { regexp: 'WaylandEnable=false', line: '#WaylandEnable=false' }
 
     - name: Update to allow root in GUI | /etc/pam.d/gdm-password
       lineinfile:
@@ -42,12 +59,12 @@
 
     - name: Copy nomachine package to remote machine
       copy:
-        src: nomachine_7.6.2_4_amd64.deb
-        dest: /tmp/nomachine_7.6.2_4_amd64.deb
+        src: nomachine_7.7.4_1_amd64.deb
+        dest: /tmp/nomachine_7.7.4_1_amd64.deb
 
     - name: Install NoMachine
       apt:
-        deb: /tmp/nomachine_7.6.2_4_amd64.deb
+        deb: /tmp/nomachine_7.7.4_1_amd64.deb
       register: nomachine_install_result
 
     - name: Modify permissions on /usr/NX/var/log/node
@@ -88,6 +105,13 @@
 
     - name: Disable screen saver locking
       shell: "gsettings set org.gnome.desktop.screensaver lock-enabled false"
+
+    - name: Disable PhysicalDesktopAuthorization | /usr/NX/etc/server.cfg
+      lineinfile:
+        path: /usr/NX/etc/server.cfg
+        regexp: '^#PhysicalDesktopAuthorization 1'
+        line: 'PhysicalDesktopAuthorization 0'
+        backrefs: yes
 
     - name: Killall Xorg
       shell: "killall Xorg || true"
